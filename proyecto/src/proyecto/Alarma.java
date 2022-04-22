@@ -1,4 +1,4 @@
-
+package proyecto;
 public class Alarma {
     private int id;
     private String fecha;

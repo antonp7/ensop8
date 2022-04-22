@@ -1,4 +1,4 @@
-
+package proyecto;
 public class Protocolo {
     private int id;
     private String tipoAlarma;
