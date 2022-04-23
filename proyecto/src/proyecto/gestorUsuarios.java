@@ -11,14 +11,36 @@ public class gestorUsuarios implements gestorUsuariosInt{
 
 	@Override
 	public int registrarUsuario(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		
+		if(usuario != null) {
+			if(!usuarios.containsKey(usuario.getId())) {
+				usuarios.put(usuario.getId(), usuario);
+				result = 1;
+			}
+		}else {
+			result = -1;
+		}
+		
+		return result;
 	}
 
 	@Override
 	public int darBajaUsuario(String dni) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		
+		if(usuarios.isEmpty()) {
+			result = -1;
+		}else {
+			for(Usuario u: usuarios.values()) {
+				if(u.getDni().equals(dni)) {
+					usuarios.remove(u.getId());
+					result = 1;
+				}
+			}
+		}
+		
+		return result;
 	}
 
 	@Override
@@ -35,8 +57,18 @@ public class gestorUsuarios implements gestorUsuariosInt{
 
 	@Override
 	public int modificarUsuario(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+				
+		if(usuario != null) {
+			if(usuarios.containsKey(usuario.getId())) {
+				usuarios.put(usuario.getId(), usuario);
+				result = 1;
+			}
+		}else {
+			result = -1;
+		}
+		
+		return result;
 	}
     
     
