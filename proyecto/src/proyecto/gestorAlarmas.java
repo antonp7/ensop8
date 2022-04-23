@@ -152,6 +152,9 @@ public class gestorAlarmas implements gestorAlarmasInt {
     	return 0;
     }
 
+    public void prueba() {
+    	
+    }
     
     
     
