@@ -1,4 +1,4 @@
 package proyecto;
-public class gestorUsuariosInt {
+public interface gestorUsuariosInt {
     
 }
