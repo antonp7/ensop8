@@ -34,9 +34,11 @@ public class gestorAlarmas implements gestorAlarmasInt {
     		String mensaje = "";
     		for(Protocolo p : this.getProtocolos().values()) {
     			mensaje = p.getAccion();
+    			enviarProtocolo(p);
     			
     		}
     		enviarSirena(mensaje);
+    		
     		
     		return 1;
     		
@@ -114,7 +116,8 @@ public class gestorAlarmas implements gestorAlarmasInt {
     	for(Integer idAlarma : this.getAlarmas().keySet()) {
     		Alarma a = this.getAlarmas().get(idAlarma);
     		if(a.getEstado() == 0 && (a.getFechaCierre()!=null || a.getFechaCierre() != "")) {
-    			if(recibirInfoAlarmas(alarmasResueltas)== 1) {
+    			gestorEstadisticasInt interfaz = new gestorEstadisticas();
+    			if(interfaz.recibirInfoAlarmas(alarmasResueltas)== 1) {
     				return 1;
     			}
     		}
@@ -128,11 +131,26 @@ public class gestorAlarmas implements gestorAlarmasInt {
     		return 0;
     	}
     	else {
-    		
+    		gestorUsuariosInt interfaz = new gestorUsuarios();
+    		for(Alarma a : this.getAlarmas().values()) {
+    			interfaz.declararAlarma(a);
+    		}
+    		return 1;
+    	}
+    }
+    
+    
+    public int enviarProtocolo(Protocolo protocolo) {
+    	if(protocolo == null) {
+    		return 0;
+    	}
+    	else {
+    		gestorEquiposInt interfaz = new gestorEquipos();
+    		interfaz.consultarProtocolo(protocolo);
+    		return 1;
     	}
     	return 0;
     }
-    
 
     
     
