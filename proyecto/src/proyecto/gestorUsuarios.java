@@ -2,19 +2,43 @@ package proyecto;
 import java.util.HashMap;
 
 
-public class gestorUsuarios {
+public class gestorUsuarios implements gestorUsuariosInt{
     private HashMap<Integer, Usuario> usuarios;
     
     public gestorUsuarios(){
         this.usuarios = new HashMap<>();
     }
 
-    public HashMap<Integer, Usuario> getUsuarios() {
-        return usuarios;
-    }
+	@Override
+	public int registrarUsuario(Usuario usuario) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
-    public void setUsuarios(HashMap<Integer, Usuario> usuarios) {
-        this.usuarios = usuarios;
-    }
+	@Override
+	public int darBajaUsuario(String dni) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int declararAlarma(Alarma alarma) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int recibirAccionesUsuario(HashMap<Integer, String> acciones) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int modificarUsuario(Usuario usuario) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+    
+    
     
 }
