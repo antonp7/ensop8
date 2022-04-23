@@ -4,29 +4,39 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 
-public class gestorEstadisticas implements gestosEstadisticasInt{
+public class gestorEstadisticas implements gestorEstadisticasInt{
+	private int flagEquipo;
 	private int flagAlarma;
 	private int flagAccion;
+	private int equipoOK;
+	private int alarmaOK;
+	private int accionOK;
 	
     public gestorEstadisticas(){
+    	this.flagEquipo=1;
         this.flagAccion=1;
         this.flagAlarma=1;
+        this.equipoOK=0;
+        this.accionOK=0;
+        this.alarmaOK=0;
     }
 
 	@Override
-	public void recibirInfoEquipos(HashMap<Integer, HashMap<Integer, Boolean>> disponibilidadMiembros) {
+	public int recibirInfoEquipos(HashMap<Integer, HashMap<Integer, Boolean>> disponibilidadMiembros) {
 		// TODO Auto-generated method stub
-		
+		return 1;
 	}
 
 	@Override
-	public ArrayList<Object> recibirInfoAccion(HashMap<Integer, Float> i) {
+	public int recibirInfoAccion(HashMap<Integer, Float> i) {
 		// TODO Auto-generated method stub
 		int total=0;
 		float media=0f;
@@ -35,7 +45,7 @@ public class gestorEstadisticas implements gestosEstadisticasInt{
 		try {
 			PrintWriter writer= new PrintWriter("./LogAccion_"+String.valueOf(this.flagAccion)+".txt", "UTF-8");
 			for(Integer in: i.keySet()) {
-				writer.println("Acción "+Integer.toString(in)+"");
+				writer.println("Acciï¿½n "+Integer.toString(in)+"");
 				writer.println("Tiempo: "+String.valueOf(i.get(in))+"");
 				writer.println();
 				writer.println();
@@ -43,9 +53,13 @@ public class gestorEstadisticas implements gestosEstadisticasInt{
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			this.accionOK=0;
+			return 0;
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			this.accionOK=0;
+			return 0;
 		}
 		
 		total=i.size();
@@ -59,15 +73,13 @@ public class gestorEstadisticas implements gestosEstadisticasInt{
 		
 		this.flagAccion++;
 		
-		return r;
+		this.accionOK=1;
+		return 1;
 	}
 
 	@Override
-	public ArrayList<Object> recibirInfoAlarmas(HashMap<Integer, Alarma> i) {
+	public int recibirInfoAlarmas(HashMap<Integer, Alarma> i) {
 		// TODO Auto-generated method stub
-		int total=0;
-		float media=0f;
-		HashMap<String, ArrayList<String>> result= new HashMap();
 		ArrayList<Object> f= new ArrayList<Object>();
 		
 		try {
@@ -85,24 +97,19 @@ public class gestorEstadisticas implements gestosEstadisticasInt{
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			this.alarmaOK=0;
+			return 0;
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			this.alarmaOK=0;
+			return 0;
 		}
-		
-		
-		total=i.size();
-		f.add(total);
-		
-		media=mediaAlarmas(i);
-		f.add(media);
-		
-		result=distribucionAlarmas(i);
-		f.add(result);
 		
 		this.flagAlarma++;
 		
-		return f;
+		this.alarmaOK=1;
+		return 1;
 	}
 	
 	private Date convertirFecha(String f) {
@@ -118,7 +125,7 @@ public class gestorEstadisticas implements gestosEstadisticasInt{
 		return d;
 	}
 	
-	private float mediaAlarmas(HashMap<Integer, Alarma> alarmas) {
+	/*private float mediaAlarmas(HashMap<Integer, Alarma> alarmas) {
 		float media=0f;
 		long duracionT=0L;
 		//21/04/2022
@@ -137,7 +144,7 @@ public class gestorEstadisticas implements gestosEstadisticasInt{
 		media=duracionT/alarmas.size();
 		
 		return media;
-	}
+	}*/
 	
 	private HashMap<String, ArrayList<String>> distribucionAlarmas(HashMap<Integer, Alarma> alarmas){
 		HashMap<String, ArrayList<String>> result= new HashMap();
@@ -169,11 +176,98 @@ public class gestorEstadisticas implements gestosEstadisticasInt{
 		return result;
 	}
 	
-	public void calcularEstadisticas(int flag) {
+	public void calcularEstadisticas(int flag) throws FileNotFoundException {
+		int total=0;
+		float media=0f;
+		ArrayList<Object> result= new ArrayList<Object>();
+		
+		if(flag==0) { //Equipos
+			
+		}
+		
+		else if(flag==1) { //Acciones
+			if(this.accionOK==1) {
+				int i=1;
+				for(i=1; i<this.flagAlarma; i++) {
+					String nombre="./LogAlarma_"+String.valueOf(i)+".txt";
+					File doc= new File(nombre);
+					Scanner obj= new Scanner(doc);
+					
+					while(obj.hasNextLine()) {
+						if(obj.nextLine().contains("Accion")) {
+							total++;
+						}
+						
+						else if(obj.nextLine().contains("Tiempo: ")) {
+							String[] parts= obj.nextLine().split(": ");
+							media+=Float.valueOf(parts[1]);
+						}
+					}
+					
+					
+					
+				}
+				result.add(total);
+				
+				media/=total;
+				result.add(media);
+			}
+		}
+		
+		else if(flag== 2) { //Alarmas
+			if(this.alarmaOK==1) {
+				int i=1;
+				for(i=1; i<this.flagAlarma; i++) {
+					int j=0;
+					String nombre="./LogAlarma_"+String.valueOf(i)+".txt";
+					File doc= new File(nombre);
+					Scanner obj= new Scanner(doc);
+					ArrayList<String> fechasIn, fechasFin;
+					fechasIn= new ArrayList<String>();
+					fechasFin= new ArrayList<String>();
+					
+					while(obj.hasNextLine()) {
+						if(obj.nextLine().contains("Alarma")) {
+							total++;
+						}
+						
+						else if(obj.nextLine().contains("Fecha inicio: ")) {
+							String[] parts= obj.nextLine().split(": ");
+							fechasIn.add(parts[1]);
+						}
+						
+						else if(obj.nextLine().contains("Fecha fin: ")) {
+							String[] parts= obj.nextLine().split(": ");
+							fechasFin.add(parts[1]);
+						}
+					}
+					
+					for(j=0; j<fechasIn.size(); j++) {
+						String fechaIn=fechasIn.get(j);
+						String fechaFin=fechasIn.get(j);
+						
+						Date dIn=convertirFecha(fechaIn);
+						Date dFin= convertirFecha(fechaFin);
+						
+						long diff= dFin.getTime()-dIn.getTime();
+						
+						TimeUnit time= TimeUnit.DAYS;
+						long diferencia= time.convert(diff, TimeUnit.MILLISECONDS);
+						long duracion= diferencia*24;
+						media+=duracion;
+					}
+					
+				}
+				result.add(total);
+				
+				media/=total;
+				result.add(media);
+			}
+		}
 		
 	}
 	
-	public void exponerValores() {
-		
+	public void exponerValores(int flag) throws FileNotFoundException {
+		calcularEstadisticas(flag);
 	}
 }
