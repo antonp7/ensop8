@@ -26,5 +26,34 @@ public class gestorAlarmas {
         this.protocolos = protocolos;
     }
     
+    public void recibirAlarma(Alarma alarma){
+    	
+    }
+    
+    public void crearProtocolo(int id, String tipoAlarma, String localizacion, String rol, String accion) {
+    	if((Integer)id == null || id < 0) {
+    		System.out.println("El id no puede ser nulo o menor que 0");
+    	}
+    	if(tipoAlarma == null || tipoAlarma == "") {
+    		System.out.println("El atributo tipoAlarma no puede ser nulo");
+    	}
+    	if(localizacion == null || localizacion == "") {
+    		System.out.println("El atributo localizacion no puede ser nulo");
+    	}
+    	if(rol == null || rol == "") {
+    		System.out.println("El atributo rol no puede ser nulo");
+    	}
+    	if(accion == null || accion == "") {
+    		System.out.println("El atributo accion no puede ser nulo");
+    	}
+    	Protocolo prot = new Protocolo(id, tipoAlarma, localizacion);
+    	prot.setRol(rol);
+    	prot.setAccion(accion);
+    	if(!this.getProtocolos().containsKey(prot.getId())) {
+    		this.getProtocolos().put(prot.getId(), prot);
+    	}
+    }
+    
+    
     
 }
