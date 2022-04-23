@@ -22,7 +22,7 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 	
     public gestorEstadisticas(){
     	this.flagEquipo=1;
-        this.flagAccion=1;//
+        this.flagAccion=1;
         this.flagAlarma=1;
         this.equipoOK=0;
         this.accionOK=0;
