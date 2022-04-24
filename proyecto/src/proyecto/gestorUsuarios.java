@@ -79,7 +79,6 @@ public class gestorUsuarios implements gestorUsuariosInt{
 				//Se recorren las acciones introducidas
 				for(Integer i: acciones.keySet()) {
 					//Se envía a cada usuario su acción a realizar
-					System.out.println("El usuario con DNI: " + usuarios.get(i).getDni() + " debe " + acciones.get(i));
 					result = 1;
 				}
 			}else {
@@ -101,11 +100,7 @@ public class gestorUsuarios implements gestorUsuariosInt{
 			//Si el usuario existe en el sistema
 			if(usuarios.containsKey(usuario.getId())) {
 				//Se modifica el usuario
-				
 				usuarios.put(usuario.getId(), usuario);
-				System.out.println(usuario.getDni());
-				System.out.println(usuario.getNombre());
-				System.out.println(usuario.getId());
 				result = 1;
 			}
 		}else {
