@@ -1,6 +1,7 @@
 package proyecto;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 
 public class gestorEquipos implements gestorEquiposInt{
