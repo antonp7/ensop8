@@ -107,14 +107,12 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 		try {
 			try (PrintWriter writer = new PrintWriter("./LogAlarma_"+String.valueOf(this.flagAlarma)+".txt", "UTF-8")) {
 				for(Alarma a: i.values()) {
-					writer.println("Alarma "+String.valueOf(a.getId())+"");
-					writer.println("Fecha inicio: "+a.getFecha()+"");
-					writer.println("Fecha fin: "+a.getFechaCierre()+"");
-					writer.println("Tipo: "+a.getTipo()+"");
-					writer.println("Centro: "+a.getCentro()+"");
-					writer.println("Estado "+String.valueOf(a.getEstado())+"");
-					writer.println();
-					writer.println();
+					writer.println("Alarma "+String.valueOf(a.getId()));
+					writer.println("Fecha inicio: "+a.getFecha());
+					writer.println("Fecha fin: "+a.getFechaCierre());
+					writer.println("Tipo: "+a.getTipo());
+					writer.println("Centro: "+a.getCentro());
+					writer.println("Estado "+String.valueOf(a.getEstado())+"\n\n");
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -190,7 +188,7 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 	}
 	
 	public ArrayList<Object> calcularEstadisticas(int flag) throws FileNotFoundException {
-		int total=1;
+		int total=0;
 		float media=0f;
 		ArrayList<Object> result= new ArrayList<Object>();
 		

@@ -1,5 +1,6 @@
 package proyecto;
 import java.util.HashMap;
+import java.util.Iterator;
 
 
 public class gestorUsuarios implements gestorUsuariosInt{
@@ -38,10 +39,11 @@ public class gestorUsuarios implements gestorUsuariosInt{
 			result = -1;
 		}else {
 			//Se busca el usuario a eliminar por su dni
-			for(Usuario u: usuarios.values()) {
-				if(u.getDni().equals(dni)) {
+			Iterator<Usuario> u = usuarios.values().iterator();
+			while(u.hasNext()) {
+				if(u.next().getDni().equals(dni)) {
 					//Se elimina el usuario del sistema
-					usuarios.remove(u.getId());
+					usuarios.remove(u.next().getId());
 					result = 1;
 				}
 			}
