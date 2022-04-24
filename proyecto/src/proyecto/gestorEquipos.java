@@ -34,18 +34,19 @@ public class gestorEquipos implements gestorEquiposInt{
     	Scanner s=new Scanner(System.in);
 		String estado="";
 		System.out.println("Esta disponible el usuario " + usuario + "?"+"[S/N]");
-		estado=s.next();
+		estado=s.nextLine();
 		
 		
 		while(!estado.equals("S") && !estado.equals("N")){
 			System.out.println("Repita el estado, el formato no era correcto.");
 			estado=s.nextLine();
 		}
-		//s.close();
-		if(estado.equals("S"))
+		if(estado.contains("S")) {
 			return true;
-		else
+		}
+		else{
 			return false;
+		}
     }
     
     public int editarEquipos(int equipo, HashMap<Integer, Usuario> miembros) {
@@ -77,10 +78,11 @@ public class gestorEquipos implements gestorEquiposInt{
         //Comprobamos que los usuarios están disponibles
         for(Usuario u : equipo.values()) {
             if(recibirEstado(u.getId())) {
+            	System.out.println(u.isEstado());
                 dispo.add(u.isEstado());
             }
             else {
-            	dispo.add(u.isEstado());	
+            	dispo.add(u.isEstado());
             }
         }
         System.out.println(dispo);
@@ -101,7 +103,11 @@ public class gestorEquipos implements gestorEquiposInt{
         }
         System.out.println(dispo.size());
         for(Integer i : equipos.keySet()) {
-            d.put(i, dispo.get(i));
+        	HashMap<Integer, Usuario> h = equipos.get(i);
+        	for(Integer id : h.keySet()) {
+        		d.put(id, dispo.get(i));
+        	}
+        	
         }
 
         d2.put(Integer.valueOf(e), d);
