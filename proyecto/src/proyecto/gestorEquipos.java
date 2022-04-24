@@ -21,7 +21,7 @@ public class gestorEquipos implements gestorEquiposInt{
         this.equipos = equipos;
     }
     
-    public boolean recibirEstado(int usuario, HashMap<Integer, Usuario> usuarios) {
+    public boolean recibirEstado(int usuario) {
     	Scanner s=new Scanner(System.in);
 		String estado="";
 		System.out.println("Esta disponible el usuario " + usuario + "?"+"[S/N]");

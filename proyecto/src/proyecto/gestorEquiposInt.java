@@ -9,7 +9,7 @@ public interface gestorEquiposInt {
     
 	public void setEquipos(HashMap<Integer, HashMap<Integer, Usuario>> equipos);
     
-    public boolean recibirEstado(int usuario, HashMap<Integer, Usuario> usuarios);
+    public boolean recibirEstado(int usuario);
     
     public int editarEquipos(int equipo, HashMap<Integer, Usuario> miembros);
     
