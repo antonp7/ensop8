@@ -133,9 +133,7 @@ public class gestorAlarmas implements gestorAlarmasInt {
     		return 0;
     	}
     	else {
-    		for(Alarma a : this.getAlarmas().values()) {
-    			//gU.declararAlarma(a);
-    		}
+    		System.out.println(notificacion);
     		return 1;
     	}
     }
