@@ -46,17 +46,14 @@ public class gestorEquipos implements gestorEquiposInt{
     }
     
     public void notificarInfoEquipos() {
-    	boolean dis=true;
+    	HashMap<Integer, HashMap<Integer, Boolean>> disponibilidad=new HashMap<>();
     	for(Integer eq: this.equipos.keySet()) {
-    		dis=true;
+    		HashMap<Integer, Boolean> equipo=new HashMap<>();
     		for(Usuario u: this.equipos.get(eq).values())
-    			if(!u.isEstado())
-    				dis = false;
-    		if(dis)
-    			System.out.println("El equipo " + eq + " esta disponible al completo.");
-    		else
-    			System.out.println("El equipo " + eq + " no esta disponible.");
+    			equipo.put(u.getId(), u.isEstado());
+    		disponibilidad.put(eq, equiopo);
     	}
+		return disponibilidad;
     }
     
     public int recibirGestion(int e, HashMap<Integer, Usuario> equipo) {
