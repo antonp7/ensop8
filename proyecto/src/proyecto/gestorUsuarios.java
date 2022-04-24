@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public class gestorUsuarios implements gestorUsuariosInt{
     private HashMap<Integer, Usuario> usuarios;
+    private gestorAlarmasInt ga;
     
     public gestorUsuarios(){
         this.usuarios = new HashMap<>();
@@ -55,7 +56,7 @@ public class gestorUsuarios implements gestorUsuariosInt{
 		//Si se introdujo la alarma
 		if(alarma != null) {
 			//Si se envía la alarma correctamente al gestor de alarmas
-			if(recibirAlarma(alarma) == 1) {
+			if(ga.recibirAlarma(alarma) == 1) {
 				result = 1;
 			}
 		}else {
@@ -70,12 +71,16 @@ public class gestorUsuarios implements gestorUsuariosInt{
 		int result = 0;
 		
 		//Si se introducen acciones correctamente
-		if(!acciones.isEmpty()) {
-			//Se recorren las acciones introducidas
-			for(Integer i: acciones.keySet()) {
-				//Se envía a cada usuario su acción a realizar
-				System.out.println("El usuario con DNI: " + usuarios.get(i).getDni() + " debe " + acciones.get(i));
-				result = 1;
+		if(acciones != null) {
+			if(!acciones.isEmpty()) {
+				//Se recorren las acciones introducidas
+				for(Integer i: acciones.keySet()) {
+					//Se envía a cada usuario su acción a realizar
+					System.out.println("El usuario con DNI: " + usuarios.get(i).getDni() + " debe " + acciones.get(i));
+					result = 1;
+				}
+			}else {
+				result = -1;
 			}
 		}else {
 			result = -1;

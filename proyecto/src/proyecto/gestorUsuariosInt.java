@@ -22,7 +22,10 @@ public interface gestorUsuariosInt {
 	 * Devolverá 0 si la alarma ya ha sido introducida anteriormente.*/
 	int declararAlarma(Alarma alarma);
 	
-	/* Método que*/
+	/* Método que envía a cada usuario introducido las acciones a realizar.
+	 * Devolverá 1 si se enviaron correctamente,
+	 * Devolverá -1 si no hay acciones introducidas
+	 * Devolverá 0 si no se pudo enviar.*/
 	int recibirAccionesUsuario(HashMap<Integer, String> acciones);
 	
 	/* Método que modifica un usuario del sistema.
