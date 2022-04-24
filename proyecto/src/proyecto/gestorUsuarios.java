@@ -6,8 +6,9 @@ public class gestorUsuarios implements gestorUsuariosInt{
     private HashMap<Integer, Usuario> usuarios;
     private gestorAlarmasInt ga;
     
-    public gestorUsuarios(){
+    public gestorUsuarios(gestorAlarmasInt ga){
         this.usuarios = new HashMap<>();
+        this.ga = ga;
     }
 
 	@Override

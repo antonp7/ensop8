@@ -1,7 +1,10 @@
 package proyecto;
-public class gestorEquiposInt {
 
-    public gestorEquipos();
+import java.util.HashMap;
+
+public interface gestorEquiposInt {
+
+    //public gestorEquipos();
 
     public HashMap<Integer, HashMap<Integer, Usuario>> getEquipos();
 	public void setEquipos(HashMap<Integer, HashMap<Integer, Usuario>> equipos);
