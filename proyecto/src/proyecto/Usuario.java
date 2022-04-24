@@ -12,7 +12,7 @@ public class Usuario {
     private String capacitacion;
     private boolean estado;
     
-    private Usuario(int id, String nombre, String dni){
+    public Usuario(int id, String nombre, String dni){
         this.id = id;
         this.nombre = nombre;
         this.dni = dni;
