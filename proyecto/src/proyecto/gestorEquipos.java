@@ -21,7 +21,7 @@ public class gestorEquipos implements gestorEquiposInt{
         this.equipos = equipos;
     }
     
-    public int recibirEstado(int usuario, boolean estado, HashMap<Integer, Usuario> usuarios) {
+    public boolean recibirEstado(int usuario, HashMap<Integer, Usuario> usuarios) {
     	Scanner s=new Scanner(System.in);
 		String estado="";
 		System.out.println("Esta disponible el usuario " + usuario + "?"+"[S/N]");
@@ -30,6 +30,7 @@ public class gestorEquipos implements gestorEquiposInt{
 			System.out.println("Repita el estado, el formato no era correcto.");
 			estado=s.nextLine();
 		}
+		s.close();
 		if(estado.equals("S"))
 			return true;
 		else
@@ -45,7 +46,7 @@ public class gestorEquipos implements gestorEquiposInt{
     	return 1;
     }
     
-    public void notificarInfoEquipos() {
+    public HashMap<Integer, HashMap<Integer, Boolean>> notificarInfoEquipos() {
     	HashMap<Integer, HashMap<Integer, Boolean>> disponibilidad=new HashMap<>();
     	for(Integer eq: this.equipos.keySet()) {
     		HashMap<Integer, Boolean> equipo=new HashMap<>();
