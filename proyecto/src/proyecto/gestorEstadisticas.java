@@ -13,18 +13,18 @@ import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 
 public class gestorEstadisticas implements gestorEstadisticasInt{
-	private int flagEquipo;
+	//private int flagEquipo;
 	private int flagAlarma;
 	private int flagAccion;
-	private int equipoOK;
+	//private int equipoOK;
 	private int alarmaOK;
 	private int accionOK;
 	
     public gestorEstadisticas(){
-    	this.flagEquipo=1;
+    	//this.flagEquipo=1;
         this.flagAccion=1;
         this.flagAlarma=1;
-        this.equipoOK=0;
+        //this.equipoOK=0;
         this.accionOK=0;
         this.alarmaOK=0;
     }
@@ -32,6 +32,7 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 	@Override
 	public int recibirInfoEquipos(HashMap<Integer, HashMap<Integer, Boolean>> disponibilidadMiembros) {
 		// TODO Auto-generated method stub
+		
 		return 1;
 	}
 
@@ -43,12 +44,13 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 		ArrayList<Object> r= new ArrayList<Object>();
 		
 		try {
-			PrintWriter writer= new PrintWriter("./LogAccion_"+String.valueOf(this.flagAccion)+".txt", "UTF-8");
-			for(Integer in: i.keySet()) {
-				writer.println("Acci�n "+Integer.toString(in)+"");
-				writer.println("Tiempo: "+String.valueOf(i.get(in))+"");
-				writer.println();
-				writer.println();
+			try (PrintWriter writer = new PrintWriter("./LogAccion_"+String.valueOf(this.flagAccion)+".txt", "UTF-8")) {
+				for(Integer in: i.keySet()) {
+					writer.println("Acci�n "+Integer.toString(in)+"");
+					writer.println("Tiempo: "+String.valueOf(i.get(in))+"");
+					writer.println();
+					writer.println();
+				}
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -80,19 +82,19 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 	@Override
 	public int recibirInfoAlarmas(HashMap<Integer, Alarma> i) {
 		// TODO Auto-generated method stub
-		ArrayList<Object> f= new ArrayList<Object>();
 		
 		try {
-			PrintWriter writer= new PrintWriter("./LogAlarma_"+String.valueOf(this.flagAlarma)+".txt", "UTF-8");
-			for(Alarma a: i.values()) {
-				writer.println("Alarma "+String.valueOf(a.getId())+"");
-				writer.println("Fecha inicio: "+a.getFecha()+"");
-				writer.println("Fecha fin: "+a.getFechaCierre()+"");
-				writer.println("Tipo: "+a.getTipo()+"");
-				writer.println("Centro: "+a.getCentro()+"");
-				writer.println("Estado "+String.valueOf(a.getEstado())+"");
-				writer.println();
-				writer.println();
+			try (PrintWriter writer = new PrintWriter("./LogAlarma_"+String.valueOf(this.flagAlarma)+".txt", "UTF-8")) {
+				for(Alarma a: i.values()) {
+					writer.println("Alarma "+String.valueOf(a.getId())+"");
+					writer.println("Fecha inicio: "+a.getFecha()+"");
+					writer.println("Fecha fin: "+a.getFechaCierre()+"");
+					writer.println("Tipo: "+a.getTipo()+"");
+					writer.println("Centro: "+a.getCentro()+"");
+					writer.println("Estado "+String.valueOf(a.getEstado())+"");
+					writer.println();
+					writer.println();
+				}
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -146,37 +148,48 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 		return media;
 	}*/
 	
-	private HashMap<String, ArrayList<String>> distribucionAlarmas(HashMap<Integer, Alarma> alarmas){
-		HashMap<String, ArrayList<String>> result= new HashMap();
+	private HashMap<String, Integer> distribucionAlarmas(HashMap<Integer, String> alarmas){
+		HashMap<String, ArrayList<String>> result= new HashMap<String, ArrayList<String>>();
+		HashMap<String, Integer> fin= new HashMap<String, Integer>();
+		int i=0;
 		
-		for(Alarma a: alarmas.values()) {
-			String[] fechaIn= a.getFecha().split("/");
+		for(String a: alarmas.values()) {
+			String[] fechaIn= a.split("/");
 			String mesIn= fechaIn[1];
 			String anoIn= fechaIn[2];
 			
 			if(!result.containsKey(mesIn)) {
 				result.put(mesIn, new ArrayList<String>());
-				result.get(mesIn).add(String.valueOf(a.getId()));
+				result.get(mesIn).add(String.valueOf(i));
+				i++;
 			}
 			
 			else {
-				result.get(mesIn).add(String.valueOf(a.getId()));
+				result.get(mesIn).add(String.valueOf(i));
+				i++;
 			}
 			
 			if(!result.containsKey(anoIn)) {
 				result.put(anoIn, new ArrayList<String>());
-				result.get(anoIn).add(String.valueOf(a.getId()));
+				result.get(anoIn).add(String.valueOf(i));
+				i++;
 			}
 			
 			else {
-				result.get(anoIn).add(String.valueOf(a.getId()));
+				result.get(anoIn).add(String.valueOf(i));
+				i++;
 			}
 		}
 		
-		return result;
+		for(String d: result.keySet()) {
+			int total= result.get(d).size();
+			fin.put(d, total);
+		}
+		
+		return fin;
 	}
 	
-	public void calcularEstadisticas(int flag) throws FileNotFoundException {
+	public ArrayList<Object> calcularEstadisticas(int flag) throws FileNotFoundException {
 		int total=0;
 		float media=0f;
 		ArrayList<Object> result= new ArrayList<Object>();
@@ -191,80 +204,90 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 				for(i=1; i<this.flagAlarma; i++) {
 					String nombre="./LogAlarma_"+String.valueOf(i)+".txt";
 					File doc= new File(nombre);
-					Scanner obj= new Scanner(doc);
-					
-					while(obj.hasNextLine()) {
-						if(obj.nextLine().contains("Accion")) {
-							total++;
+					try (Scanner obj = new Scanner(doc)) {
+						while(obj.hasNextLine()) {
+							if(obj.nextLine().contains("Accion")) {
+								total++;
+							}
+							
+							else if(obj.nextLine().contains("Tiempo: ")) {
+								String[] parts= obj.nextLine().split(": ");
+								media+=Float.valueOf(parts[1]);
+							}
 						}
-						
-						else if(obj.nextLine().contains("Tiempo: ")) {
-							String[] parts= obj.nextLine().split(": ");
-							media+=Float.valueOf(parts[1]);
-						}
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					
-					
-					
 				}
 				result.add(total);
 				
 				media/=total;
 				result.add(media);
+				
+				
 			}
 		}
 		
 		else if(flag== 2) { //Alarmas
 			if(this.alarmaOK==1) {
-				int i=1;
+				int i=1, k=0;
+				HashMap<Integer, String> alarmas= new HashMap<Integer, String>();
+				HashMap<String, Integer> fin= new HashMap<String, Integer>();
 				for(i=1; i<this.flagAlarma; i++) {
 					int j=0;
 					String nombre="./LogAlarma_"+String.valueOf(i)+".txt";
 					File doc= new File(nombre);
-					Scanner obj= new Scanner(doc);
-					ArrayList<String> fechasIn, fechasFin;
-					fechasIn= new ArrayList<String>();
-					fechasFin= new ArrayList<String>();
-					
-					while(obj.hasNextLine()) {
-						if(obj.nextLine().contains("Alarma")) {
-							total++;
+					try (Scanner obj = new Scanner(doc)) {
+						ArrayList<String> fechasIn, fechasFin;
+						fechasIn= new ArrayList<String>();
+						fechasFin= new ArrayList<String>();
+						
+						while(obj.hasNextLine()) {
+							if(obj.nextLine().contains("Alarma")) {
+								total++;
+							}
+							
+							else if(obj.nextLine().contains("Fecha inicio: ")) {
+								k++;
+								String[] parts= obj.nextLine().split(": ");
+								fechasIn.add(parts[1]);
+								alarmas.put(k, parts[1]);
+							}
+							
+							else if(obj.nextLine().contains("Fecha fin: ")) {
+								String[] parts= obj.nextLine().split(": ");
+								fechasFin.add(parts[1]);
+							}
 						}
 						
-						else if(obj.nextLine().contains("Fecha inicio: ")) {
-							String[] parts= obj.nextLine().split(": ");
-							fechasIn.add(parts[1]);
-						}
-						
-						else if(obj.nextLine().contains("Fecha fin: ")) {
-							String[] parts= obj.nextLine().split(": ");
-							fechasFin.add(parts[1]);
+						for(j=0; j<fechasIn.size(); j++) {
+							String fechaIn=fechasIn.get(j);
+							String fechaFin=fechasIn.get(j);
+							
+							Date dIn=convertirFecha(fechaIn);
+							Date dFin= convertirFecha(fechaFin);
+							
+							long diff= dFin.getTime()-dIn.getTime();
+							
+							TimeUnit time= TimeUnit.DAYS;
+							long diferencia= time.convert(diff, TimeUnit.MILLISECONDS);
+							long duracion= diferencia*24;
+							media+=duracion;
 						}
 					}
-					
-					for(j=0; j<fechasIn.size(); j++) {
-						String fechaIn=fechasIn.get(j);
-						String fechaFin=fechasIn.get(j);
-						
-						Date dIn=convertirFecha(fechaIn);
-						Date dFin= convertirFecha(fechaFin);
-						
-						long diff= dFin.getTime()-dIn.getTime();
-						
-						TimeUnit time= TimeUnit.DAYS;
-						long diferencia= time.convert(diff, TimeUnit.MILLISECONDS);
-						long duracion= diferencia*24;
-						media+=duracion;
-					}
-					
 				}
 				result.add(total);
 				
 				media/=total;
 				result.add(media);
+				
+				fin= distribucionAlarmas(alarmas);
+				result.add(fin);
 			}
 		}
 		
+		return result;
 	}
 	
 	public void exponerValores(int flag) throws FileNotFoundException {
