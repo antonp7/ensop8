@@ -24,7 +24,7 @@ public class Menu {
 		gU.registrarUsuario(us1);
 		gU.registrarUsuario(us2);
 		gU.declararAlarma(a);
-		Usuario us3 = new Usuario(4, "Carlos", "9348293N");
+		Usuario us3 = new Usuario(us2.getId(), us2.getNombre(), "9348293N");
 		gU.modificarUsuario(us3);
 		
 		HashMap<Integer, Usuario> hashUsuarios = new HashMap<>();
@@ -42,7 +42,11 @@ public class Menu {
 		hashAlarmas.put(a2.getId(), a2);
 		hashAlarmas.put(a3.getId(), a3);
 		gS.recibirInfoAlarmas(hashAlarmas);
-		gS.exponerValores(2);
+		//gS.exponerValores(2);
+		gU.darBajaUsuario("9348293N");
+		HashMap<Integer,String> acciones = new HashMap<>();
+		acciones.put(3, "salir");
+		gU.recibirAccionesUsuario(acciones);
 	}
 
 }

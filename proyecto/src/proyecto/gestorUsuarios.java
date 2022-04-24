@@ -40,11 +40,11 @@ public class gestorUsuarios implements gestorUsuariosInt{
 		}else {
 			//Se busca el usuario a eliminar por su dni
 			Iterator<Usuario> u = usuarios.values().iterator();
+			Usuario a;
 			while(u.hasNext()) {
-				if(u.next().getDni().equals(dni)) {
-					//Se elimina el usuario del sistema
-					usuarios.remove(u.next().getId());
-					result = 1;
+				a = u.next();
+				if(a.getDni().equals(dni)) {
+					usuarios.remove(a.getId());
 				}
 			}
 		}
@@ -101,7 +101,11 @@ public class gestorUsuarios implements gestorUsuariosInt{
 			//Si el usuario existe en el sistema
 			if(usuarios.containsKey(usuario.getId())) {
 				//Se modifica el usuario
+				
 				usuarios.put(usuario.getId(), usuario);
+				System.out.println(usuario.getDni());
+				System.out.println(usuario.getNombre());
+				System.out.println(usuario.getId());
 				result = 1;
 			}
 		}else {
