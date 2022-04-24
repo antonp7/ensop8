@@ -2,6 +2,7 @@ package proyecto;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -33,12 +34,14 @@ public class gestorEquipos implements gestorEquiposInt{
     	Scanner s=new Scanner(System.in);
 		String estado="";
 		System.out.println("Esta disponible el usuario " + usuario + "?"+"[S/N]");
-		estado=s.nextLine();
+		estado=s.next();
+		
+		
 		while(!estado.equals("S") && !estado.equals("N")){
 			System.out.println("Repita el estado, el formato no era correcto.");
 			estado=s.nextLine();
 		}
-		s.close();
+		//s.close();
 		if(estado.equals("S"))
 			return true;
 		else
@@ -67,27 +70,45 @@ public class gestorEquipos implements gestorEquiposInt{
     }
     
     public int recibirGestion(int e, HashMap<Integer, Usuario> equipo) {
-    	//Comprobamos que los usuarios están disponibles
-    	for(Usuario u : equipo.values()) {
-    		if(recibirEstado(u.getId())) {}
-    		else {return 1;}
-    	}
-    	//Si lo están, comprobamos que el equipo exista
-    	if(equipos.get(e)!=null) {
-    		//Si existe, lo modificamos
-    		for(Usuario u : equipo.values()) {
-        		u.setEquipo(e);
-        	}
-    		equipos.replace(e, equipo);
-    	}
-    	else {
-    		//Si no existe, se crea
-    		for(Usuario u : equipo.values()) {
-        		u.setEquipo(e);
-        	}
-    		equipos.put(e, equipo);	
-    	}
-    	return 0;
+        ArrayList<Boolean> dispo = new ArrayList<>();
+        HashMap<Integer,Boolean> d = new HashMap<>();
+        HashMap<Integer, HashMap<Integer, Boolean>> d2 = new HashMap<>();
+
+        //Comprobamos que los usuarios están disponibles
+        for(Usuario u : equipo.values()) {
+            if(recibirEstado(u.getId())) {
+                dispo.add(u.isEstado());
+            }
+            else {
+            	dispo.add(u.isEstado());	
+            }
+        }
+        System.out.println(dispo);
+        //Si lo están, comprobamos que el equipo exista
+        if(equipos.get(e)!=null) {
+            //Si existe, lo modificamos
+            for(Usuario u : equipo.values()) {
+                u.setEquipo(e);
+            }
+            equipos.replace(e, equipo);
+        }
+        else {
+            //Si no existe, se crea
+            for(Usuario u : equipo.values()) {
+                u.setEquipo(e);
+            }
+            equipos.put(e, equipo);
+        }
+        System.out.println(dispo.size());
+        for(Integer i : equipos.keySet()) {
+            d.put(i, dispo.get(i));
+        }
+
+        d2.put(Integer.valueOf(e), d);
+        System.out.println("Key: " + Integer.valueOf(e));
+        System.out.println("Value: " + d.toString());
+        gS.recibirInfoEquipos(d2);
+        return 0;
     }
     
 	private Date convertirFecha(String f) {

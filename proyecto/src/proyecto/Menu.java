@@ -71,6 +71,14 @@ public class Menu {
 		hashUsuarios2.put(us1.getId(), us1);
 		System.out.println(gE.editarEquipos(1, hashUsuarios2));
 		
+		HashMap<Integer, HashMap<Integer, Boolean>> hashgestion = new HashMap<>();
+		HashMap<Integer, Boolean> hashBool = new HashMap<>();
+		hashBool.put(3, true);
+		hashBool.put(4, true);
+		hashgestion.put(1, hashBool);
+		
+		gE.recibirGestion(1, hashUsuarios);
+		
 		
 	}
 

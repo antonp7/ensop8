@@ -38,7 +38,7 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 				for(Integer i: disponibilidadMiembros.keySet()) {
 					writer.println("\nEquipo "+Integer.toString(i)+"");
 					for(Integer in: disponibilidadMiembros.get(i).keySet()) {
-						writer.println("Miembro "+Integer.toString(i)+"");
+						writer.println("Miembro "+Integer.toString(in)+"");
 						if(disponibilidadMiembros.get(i).get(in)== true) {
 							writer.println("Miembro disponible");
 						}
