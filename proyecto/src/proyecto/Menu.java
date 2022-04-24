@@ -1,6 +1,7 @@
 package proyecto;
 
 import java.io.FileNotFoundException;
+import java.util.Collection;
 import java.util.HashMap;
 
 public class Menu {
@@ -16,6 +17,7 @@ public class Menu {
 		Alarma a2 = new Alarma(2, "ETSE", "24/04/2022", 1);
 		Alarma a3 = new Alarma(3, "Casa", "30/04/2022", 1);
 		gA.recibirAlarma(a);
+		gA.recibirAlarma(a2);
 		Protocolo p = new Protocolo(2, "Incendio", "ETSE");
 		gE.determinarAccion("Accion 1", p);
 		gE.consultarProtocolo(p);
@@ -47,6 +49,18 @@ public class Menu {
 		HashMap<Integer,String> acciones = new HashMap<>();
 		acciones.put(3, "salir");
 		gU.recibirAccionesUsuario(acciones);
+		
+		
+		gE.recibirEstado(4, hashUsuarios);
+		for(Integer i : gE.notificarInfoEquipos().keySet()) {
+			Collection<HashMap<Integer, Boolean>> notificarCol = gE.notificarInfoEquipos().values();
+			System.out.println(i);
+			System.out.println(notificarCol);
+			
+			
+		}
+		
+		
 	}
 
 }
