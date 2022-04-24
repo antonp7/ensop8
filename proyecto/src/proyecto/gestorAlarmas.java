@@ -4,31 +4,15 @@ import java.util.HashMap;
 public class gestorAlarmas implements gestorAlarmasInt {
     private HashMap<Integer, Alarma> alarmas;
     private HashMap<Integer, Protocolo> protocolos;
-    private gestorUsuariosInt gU;
     private gestorEquiposInt gE;
     private gestorEstadisticasInt gS;
     
-    public gestorAlarmas(gestorEstadisticasInt gS){
+    public gestorAlarmas(gestorEstadisticasInt gS, gestorEquiposInt gE){
         this.alarmas = new HashMap<>();
         this.protocolos = new HashMap<>();
         this.gS = gS;
+        this.gE = gE;
     }
-
-    public gestorUsuariosInt getgU() {
-		return gU;
-	}
-
-	public void setgU(gestorUsuariosInt gU) {
-		this.gU = gU;
-	}
-
-	public gestorEquiposInt getgE() {
-		return gE;
-	}
-	
-	public void setgE(gestorEquiposInt gE) {
-		this.gE = gE;
-	}
 
 	public HashMap<Integer, Alarma> getAlarmas() {
         return alarmas;
@@ -150,7 +134,7 @@ public class gestorAlarmas implements gestorAlarmasInt {
     	}
     	else {
     		for(Alarma a : this.getAlarmas().values()) {
-    			gU.declararAlarma(a);
+    			//gU.declararAlarma(a);
     		}
     		return 1;
     	}
