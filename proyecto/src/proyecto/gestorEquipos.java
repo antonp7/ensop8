@@ -1,6 +1,5 @@
 package proyecto;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -25,7 +24,7 @@ public class gestorEquipos implements gestorEquiposInt{
     public int recibirEstado(int usuario, boolean estado, HashMap<Integer, Usuario> usuarios) {
     	Usuario u=usuarios.get(usuario);
     	u.setEstado(estado);
-    	if(!usuarios.replace(usuario, u))
+    	if(usuarios.replace(usuario, u) == null)
     		return 0;
     	return 1;
     }
@@ -34,7 +33,7 @@ public class gestorEquipos implements gestorEquiposInt{
     	for(Usuario u: miembros.values()) 
     		if(!u.isEstado())
     			return 0;
-    	if(!this.equipos.replace(equipo,equipo))
+    	if(this.equipos.replace(equipo, miembros) == null)
     		return 0;
     	return 1;
     }
