@@ -1,19 +1,27 @@
 package proyecto;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner;
 
 
 public class gestorEquipos implements gestorEquiposInt{
     private HashMap<Integer, HashMap<Integer, Usuario>> equipos;
+    private gestorUsuariosInt gU;
     private gestorEstadisticasInt gS;
     
     public gestorEquipos(gestorEstadisticasInt gS){
         this.equipos = new HashMap<>();
         this.gS = gS;
     }
-
-    public HashMap<Integer, HashMap<Integer, Usuario>> getEquipos() {
+    
+	public void setgU(gestorUsuariosInt gU) {
+		this.gU = gU;
+	}
+	
+	public HashMap<Integer, HashMap<Integer, Usuario>> getEquipos() {
         return equipos;
     }
 
@@ -81,25 +89,38 @@ public class gestorEquipos implements gestorEquiposInt{
     	return 0;
     }
     
-    public int determinarProtocolo(Protocolo p) {
-    	Scanner s = new Scanner(System.in);
-    	int id;
-    	String tAlarma, localizacion;
-    	
-    	//Pedimos los datos al usuario
-    	System.out.println("Introduzca los datos del protocolo que desea añadir:");
-    	System.out.println("Introduzca su ID:");
-    	id = s.nextInt();
-    	System.out.println("Introduzca su tipo:");
-    	tAlarma = s.nextLine();
-    	System.out.println("Introduzca su localización:");
-    	localizacion = s.nextLine();
-    	
-    	//Generamos el protocolo
-    	p = new Protocolo(id, tAlarma, localizacion);
-    	System.out.println("Protocolo generado con éxito!");
-    	
-    	s.close();
+	private Date convertirFecha(String f) {
+		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		Date d=null;
+		try {
+			d= formato.parse(f);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return d;
+	}
+	
+    public int determinarProtocolo(Protocolo p, Alarma a) {
+    	//Recorremos todos los equipos para ver quienes pueden aplicar el protocolo
+    	for(HashMap<Integer, Usuario> e : equipos.values()) {
+    		for(Usuario u : e.values()) {
+    			//Vemos si el protocolo es aplicable al equipo
+    			if(p.getLocalizacion().equals(u.getZona())) {
+    				//Informamos al equipo
+    				HashMap<Integer, String> acciones = new HashMap<>();
+    				acciones.put(p.getIdXAccion(),p.getAccion());
+    				gU.recibirAccionesUsuario(acciones);
+    				//Salimos del bucle
+    				break;
+    			}
+    		}
+    	}
+    	//Una vez informados, enviamos las estadisticas
+    	Date inicio = convertirFecha(a.getFecha());
+    	Date fin = convertirFecha(a.getFechaCierre());
+    	notificarInfoAccion(p.getIdXAccion(), (float)fin.getTime()-inicio.getTime());
     	
     	return 0;
     }

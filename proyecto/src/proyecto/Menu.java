@@ -7,10 +7,12 @@ import java.util.HashMap;
 public class Menu {
 
 	public static void main(String[] args) throws FileNotFoundException {
+		
 		gestorEstadisticasInt gS = new gestorEstadisticas();
 		gestorEquiposInt gE = new gestorEquipos(gS);
 		gestorAlarmasInt gA = new gestorAlarmas(gS, gE);
 		gestorUsuariosInt gU = new gestorUsuarios(gA);
+		gE.setgU(gU);
 		
 		gA.crearProtocolo("incendio", "ETSE", "normal", "Salir del edificio");
 		Alarma a = new Alarma(1, "ETSE", "21/04/2022", 1);
@@ -58,7 +60,8 @@ public class Menu {
 			System.out.println(notificarCol);	
 		}
 		Protocolo p2 = new Protocolo(3, "Tsunami", "Casa");
-		gE.determinarProtocolo(p2);
+		p2.setIdXAccion(2);
+		gE.determinarProtocolo(p2, a2);
 		gE.consultarProtocolo(p2);
 		
 		
