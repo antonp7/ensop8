@@ -1,10 +1,11 @@
 package proyecto;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 public class Menu {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		gestorEstadisticasInt gS = new gestorEstadisticas();
 		gestorEquiposInt gE = new gestorEquipos(gS);
 		gestorAlarmasInt gA = new gestorAlarmas(gS, gE);
@@ -12,6 +13,8 @@ public class Menu {
 		
 		gA.crearProtocolo("incendio", "ETSE", "normal", "Salir del edificio");
 		Alarma a = new Alarma(1, "ETSE", "21/04/2022", 1);
+		Alarma a2 = new Alarma(2, "ETSE", "24/04/2022", 1);
+		Alarma a3 = new Alarma(3, "Casa", "30/04/2022", 1);
 		gA.recibirAlarma(a);
 		Protocolo p = new Protocolo(2, "Incendio", "ETSE");
 		gE.determinarAccion("Accion 1", p);
@@ -30,6 +33,16 @@ public class Menu {
 		HashMap<Integer, HashMap<Integer, Usuario>> hashUsuariosgrande = new HashMap<>();
 		hashUsuariosgrande.put(1, hashUsuarios);
 		gE.setEquipos(hashUsuariosgrande);
+		
+		HashMap<Integer, Alarma> hashAlarmas = new HashMap<>();
+		a.setFechaCierre("30/04/2022");
+		a2.setFechaCierre("30/05/2022");
+		a3.setFechaCierre("05/05/2022");
+		hashAlarmas.put(a.getId(), a);
+		hashAlarmas.put(a2.getId(), a2);
+		hashAlarmas.put(a3.getId(), a3);
+		gS.recibirInfoAlarmas(hashAlarmas);
+		gS.exponerValores(2);
 	}
 
 }

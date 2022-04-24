@@ -190,7 +190,7 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 	}
 	
 	public ArrayList<Object> calcularEstadisticas(int flag) throws FileNotFoundException {
-		int total=0;
+		int total=1;
 		float media=0f;
 		ArrayList<Object> result= new ArrayList<Object>();
 		
@@ -276,9 +276,9 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 						while(obj.hasNextLine()) {
 							if(obj.nextLine().contains("Alarma")) {
 								total++;
-							}
-							
+							}							
 							else if(obj.nextLine().contains("Fecha inicio: ")) {
+								
 								k++;
 								String[] parts= obj.nextLine().split(": ");
 								fechasIn.add(parts[1]);
