@@ -51,7 +51,7 @@ public class gestorEquipos implements gestorEquiposInt{
     		HashMap<Integer, Boolean> equipo=new HashMap<>();
     		for(Usuario u: this.equipos.get(eq).values())
     			equipo.put(u.getId(), u.isEstado());
-    		disponibilidad.put(eq, equiopo);
+    		disponibilidad.put(eq, equipo);
     	}
 		return disponibilidad;
     }
