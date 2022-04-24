@@ -46,7 +46,7 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 		try {
 			try (PrintWriter writer = new PrintWriter("./LogAccion_"+String.valueOf(this.flagAccion)+".txt", "UTF-8")) {
 				for(Integer in: i.keySet()) {
-					writer.println("Acciï¿½n "+Integer.toString(in)+"");
+					writer.println("Acción "+Integer.toString(in)+"");
 					writer.println("Tiempo: "+String.valueOf(i.get(in))+"");
 					writer.println();
 					writer.println();
