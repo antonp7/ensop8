@@ -50,13 +50,16 @@ public class Menu {
 		acciones.put(3, "salir");
 		gU.recibirAccionesUsuario(acciones);
 		
+		us1.setEstado(true);
+		System.out.println("NotificarInfoEquipos():");
 		for(Integer i : gE.notificarInfoEquipos().keySet()) {
 			Collection<HashMap<Integer, Boolean>> notificarCol = gE.notificarInfoEquipos().values();
 			System.out.println(i);
-			System.out.println(notificarCol);
-			
-			
+			System.out.println(notificarCol);	
 		}
+		Protocolo p2 = new Protocolo(3, "Tsunami", "Casa");
+		gE.determinarProtocolo(p2);
+		gE.consultarProtocolo(p2);
 		
 		
 	}
