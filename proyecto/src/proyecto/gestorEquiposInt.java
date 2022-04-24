@@ -20,9 +20,7 @@ public interface gestorEquiposInt {
     int determinarProtocolo(Protocolo p, Alarma a);
     
     void notificarInfoAccion(Integer accion, Float tiempo);
-    
-    void notificarInfoAccion(HashMap<Integer, Float> i, Integer accion, Float tiempo);
-    
+        
     void consultarProtocolo(Protocolo p);
     
     void determinarAccion(String accion, Protocolo p);

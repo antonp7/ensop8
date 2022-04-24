@@ -46,6 +46,7 @@ public class gestorEquipos implements gestorEquiposInt{
     }
     
     public int editarEquipos(int equipo, HashMap<Integer, Usuario> miembros) {
+    	
     	for(Usuario u: miembros.values()) 
     		if(!u.isEstado())
     			return 0;
@@ -129,14 +130,6 @@ public class gestorEquipos implements gestorEquiposInt{
     public void notificarInfoAccion(Integer accion, Float tiempo) {
     	//Creamos un hashmap que gestione nuestros datos
     	HashMap<Integer, Float> i = new HashMap<>();
-    	//Añadimos nuestros datos como una nueva entrada
-    	i.put(accion, tiempo);
-    	//Enviamos los datos
-    	gS.recibirInfoAccion(i);
-    }
-    
-    //Opcion 2 (El HashMap se nos suministra previamente)
-    public void notificarInfoAccion(HashMap<Integer, Float> i, Integer accion, Float tiempo) {
     	//Añadimos nuestros datos como una nueva entrada
     	i.put(accion, tiempo);
     	//Enviamos los datos

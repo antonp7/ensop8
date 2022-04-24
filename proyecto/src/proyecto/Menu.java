@@ -64,6 +64,13 @@ public class Menu {
 		gE.determinarProtocolo(p2, a2);
 		gE.consultarProtocolo(p2);
 		
+		HashMap<Integer, HashMap<Integer, Usuario>> hashEquipos = new HashMap<>();
+		hashEquipos.put(1, hashUsuarios);
+		gE.setEquipos(hashEquipos);
+		HashMap<Integer, Usuario> hashUsuarios2 = new HashMap<>();
+		hashUsuarios2.put(us1.getId(), us1);
+		System.out.println(gE.editarEquipos(1, hashUsuarios2));
+		
 		
 	}
 
