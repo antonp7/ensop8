@@ -1,6 +1,5 @@
 package proyecto;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface gestorEstadisticasInt {

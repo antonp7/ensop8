@@ -1,12 +1,12 @@
 package proyecto;
 
+
 import java.util.HashMap;
 
 public interface gestorEquiposInt {
 
-    //public gestorEquipos();
-
     public HashMap<Integer, HashMap<Integer, Usuario>> getEquipos();
+    
 	public void setEquipos(HashMap<Integer, HashMap<Integer, Usuario>> equipos);
     
     public int recibirEstado(int usuario, boolean estado, HashMap<Integer, Usuario> usuarios);
@@ -19,9 +19,11 @@ public interface gestorEquiposInt {
     
     public int determinarProtocolo(Protocolo p);
     
-    public void notificarInfoAccion(String accion);
+    public void notificarInfoAccion(Integer accion, Float tiempo);
     
-    public void consutarProtocolo(Protocolo p);
+    public void notificarInfoAccion(HashMap<Integer, Float> i, Integer accion, Float tiempo);
+    
+    public void consultarProtocolo(Protocolo p);
     
     public void determinarAccion(String accion, Protocolo p);
 }

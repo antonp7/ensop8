@@ -1,4 +1,5 @@
 package proyecto;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -6,9 +7,11 @@ import java.util.Scanner;
 
 public class gestorEquipos implements gestorEquiposInt{
     private HashMap<Integer, HashMap<Integer, Usuario>> equipos;
+    private gestorEstadisticasInt gS;
     
-    public gestorEquipos(){
+    public gestorEquipos(gestorEstadisticasInt gS){
         this.equipos = new HashMap<>();
+        this.gS = gS;
     }
 
     public HashMap<Integer, HashMap<Integer, Usuario>> getEquipos() {
@@ -29,7 +32,7 @@ public class gestorEquipos implements gestorEquiposInt{
     
     public int editarEquipos(int equipo, HashMap<Integer, Usuario> miembros) {
     	for(Usuario u: miembros.values()) 
-    		if(!u.estado)
+    		if(!u.isEstado())
     			return 0;
     	if(!this.equipos.replace(equipo,equipo))
     		return 0;
@@ -37,27 +40,27 @@ public class gestorEquipos implements gestorEquiposInt{
     }
     
     public void notificarInfoEquipos() {
-    	bool dis=true;
+    	boolean dis=true;
     	for(Integer eq: this.equipos.keySet()) {
     		dis=true;
-    		for(Usuario u: this.equipos.get(eq).getvalues())
-    			if(!u.isEstado)
-    				dis=null;
+    		for(Usuario u: this.equipos.get(eq).values())
+    			if(!u.isEstado())
+    				dis = false;
     		if(dis)
-    			System.out.println("El equipo "+eq+" esta disponible al completo.");
+    			System.out.println("El equipo " + eq + " esta disponible al completo.");
     		else
-    			System.out.println("El equipo "+eq+" no esta disponible.");
+    			System.out.println("El equipo " + eq + " no esta disponible.");
     	}
     }
     
     public int recibirGestion(int e, HashMap<Integer, Usuario> equipo) {
-    	//Comprobamos que los usuarios est√©n disponibles
+    	//Comprobamos que los usuarios est·n disponibles
     	for(Usuario u : equipo.values()) {
     		if(u.isEstado()) {}
     		else {return 1;}
     	}
-    	//Si lo est√°n, comprobamos que el equipo exista
-    	if(equipos.get(equipo)!=null) {
+    	//Si lo est·n, comprobamos que el equipo exista
+    	if(equipos.get(e)!=null) {
     		//Si existe, lo modificamos
     		for(Usuario u : equipo.values()) {
         		u.setEquipo(e);
@@ -80,36 +83,47 @@ public class gestorEquipos implements gestorEquiposInt{
     	String tAlarma, localizacion;
     	
     	//Pedimos los datos al usuario
-    	System.out.println("Introduzca los datos del protocolo que desea a√±adir:");
+    	System.out.println("Introduzca los datos del protocolo que desea aÒadir:");
     	System.out.println("Introduzca su ID:");
     	id = s.nextInt();
     	System.out.println("Introduzca su tipo:");
     	tAlarma = s.nextLine();
-    	System.out.println("Introduzca su localizaci√≥n:");
+    	System.out.println("Introduzca su localizaciÛn:");
     	localizacion = s.nextLine();
     	
     	//Generamos el protocolo
-    	Protocolo prot = new Protocolo(id, tAlarma, localizacion);
-    	//QUE CO√ëO HAGO CON EL PROTOCOLO ESTE
-    	System.out.println("Protocolo generado con √©xito!");
+    	p = new Protocolo(id, tAlarma, localizacion);
+    	System.out.println("Protocolo generado con Èxito!");
+    	
+    	s.close();
     	
     	return 0;
     }
     
-    //COMO COJONES SACO DE AQUI UN INT Y UN FLOAT HERMANO????
-    public void notificarInfoAccion(String accion) {
-    	HashMap<Integer, Float> i;
-    	
-    	//A DONDE CARALLO MANDO YO AHORA ESTO
-    	//recibirInfoAccion(i);
+    //Opcion 1 (El HashMap no se suministra previamente)
+    public void notificarInfoAccion(Integer accion, Float tiempo) {
+    	//Creamos un hashmap que gestione nuestros datos
+    	HashMap<Integer, Float> i = new HashMap<>();
+    	//AÒadimos nuestros datos como una nueva entrada
+    	i.put(accion, tiempo);
+    	//Enviamos los datos
+    	gS.recibirInfoAccion(i);
     }
     
-    public void consutarProtocolo(Protocolo p) {
+    //Opcion 2 (El HashMap se nos suministra previamente)
+    public void notificarInfoAccion(HashMap<Integer, Float> i, Integer accion, Float tiempo) {
+    	//AÒadimos nuestros datos como una nueva entrada
+    	i.put(accion, tiempo);
+    	//Enviamos los datos
+    	gS.recibirInfoAccion(i);
+    }
+    
+    public void consultarProtocolo(Protocolo p) {
     	//Devolvemos mediante un String que debe hacer el equipo en este caso
     	System.out.println("Se deben tomar medidas sobre la siguiente alarma: ");
     	System.out.println("Tipo: " + p.getTipoAlarma());
-    	System.out.println("Localizaci√≥n: " + p.getLocalizacion());
-    	System.out.println("Acci√≥n: " + p.getAccion());
+    	System.out.println("LocalizaciÛn: " + p.getLocalizacion());
+    	System.out.println("AcciÛn: " + p.getAccion());
     }
     
     public void determinarAccion(String accion, Protocolo p) {

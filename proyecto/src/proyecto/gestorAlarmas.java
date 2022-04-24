@@ -4,13 +4,31 @@ import java.util.HashMap;
 public class gestorAlarmas implements gestorAlarmasInt {
     private HashMap<Integer, Alarma> alarmas;
     private HashMap<Integer, Protocolo> protocolos;
+    private gestorUsuariosInt gU;
+    private gestorEquiposInt gE;
     
     public gestorAlarmas(){
         this.alarmas = new HashMap<>();
         this.protocolos = new HashMap<>();
     }
 
-    public HashMap<Integer, Alarma> getAlarmas() {
+    public gestorUsuariosInt getgU() {
+		return gU;
+	}
+
+	public void setgU(gestorUsuariosInt gU) {
+		this.gU = gU;
+	}
+
+	public gestorEquiposInt getgE() {
+		return gE;
+	}
+	
+	public void setgE(gestorEquiposInt gE) {
+		this.gE = gE;
+	}
+
+	public HashMap<Integer, Alarma> getAlarmas() {
         return alarmas;
     }
 
@@ -27,7 +45,6 @@ public class gestorAlarmas implements gestorAlarmasInt {
     }
     @Override
     public int recibirAlarma(Alarma alarma){
-    	HashMap<Integer, Alarma> alarmasResueltas;
     	if(!this.getAlarmas().containsKey(alarma.getId())) {
     		this.getAlarmas().put(alarma.getId(), alarma);
     		determinarProtocolo(alarma);
@@ -131,9 +148,8 @@ public class gestorAlarmas implements gestorAlarmasInt {
     		return 0;
     	}
     	else {
-    		gestorUsuariosInt interfaz = new gestorUsuarios();
     		for(Alarma a : this.getAlarmas().values()) {
-    			interfaz.declararAlarma(a);
+    			gU.declararAlarma(a);
     		}
     		return 1;
     	}
@@ -145,11 +161,9 @@ public class gestorAlarmas implements gestorAlarmasInt {
     		return 0;
     	}
     	else {
-    		gestorEquiposInt interfaz = new gestorEquipos();
-    		interfaz.consultarProtocolo(protocolo);
+    		gE.consultarProtocolo(protocolo);
     		return 1;
     	}
-    	return 0;
     }
 
     public void prueba() {
