@@ -79,6 +79,7 @@ public class gestorUsuarios implements gestorUsuariosInt{
 				//Se recorren las acciones introducidas
 				for(Integer i: acciones.keySet()) {
 					//Se envía a cada usuario su acción a realizar
+					System.out.println("El usuario con DNI: " + usuarios.get(i).getDni() + " debe " + acciones.get(i));
 					result = 1;
 				}
 			}else {
