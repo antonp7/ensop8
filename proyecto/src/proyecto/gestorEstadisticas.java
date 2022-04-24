@@ -8,23 +8,24 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 
 public class gestorEstadisticas implements gestorEstadisticasInt{
-	//private int flagEquipo;
+	private int flagEquipo;
 	private int flagAlarma;
 	private int flagAccion;
-	//private int equipoOK;
+	private int equipoOK;
 	private int alarmaOK;
 	private int accionOK;
 	
     public gestorEstadisticas(){
-    	//this.flagEquipo=1;
+    	this.flagEquipo=1;
         this.flagAccion=1;
         this.flagAlarma=1;
-        //this.equipoOK=0;
+        this.equipoOK=0;
         this.accionOK=0;
         this.alarmaOK=0;
     }
@@ -32,6 +33,38 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 	@Override
 	public int recibirInfoEquipos(HashMap<Integer, HashMap<Integer, Boolean>> disponibilidadMiembros) {
 		// TODO Auto-generated method stub
+		try {
+			try (PrintWriter writer = new PrintWriter("./LogEquipo_"+String.valueOf(this.flagEquipo)+".txt", "UTF-8")) {
+				for(Integer i: disponibilidadMiembros.keySet()) {
+					writer.println("Equipo "+Integer.toString(i)+"");
+					for(Integer in: disponibilidadMiembros.get(i).keySet()) {
+						writer.println("Miembro "+Integer.toString(i)+"");
+						if(disponibilidadMiembros.get(i).get(in)== true) {
+							writer.println("Miembro disponible");
+						}
+						else {
+							writer.println("Miembro no disponible");
+						}
+						writer.println();
+					}
+					writer.println();
+					writer.println();
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			this.equipoOK=0;
+			return 0;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			this.equipoOK=0;
+			return 0;
+		}
+		
+		this.flagEquipo++;
+		this.equipoOK=1;
 		
 		return 1;
 	}
@@ -39,14 +72,11 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 	@Override
 	public int recibirInfoAccion(HashMap<Integer, Float> i) {
 		// TODO Auto-generated method stub
-		int total=0;
-		float media=0f;
-		ArrayList<Object> r= new ArrayList<Object>();
 		
 		try {
 			try (PrintWriter writer = new PrintWriter("./LogAccion_"+String.valueOf(this.flagAccion)+".txt", "UTF-8")) {
 				for(Integer in: i.keySet()) {
-					writer.println("Acción "+Integer.toString(in)+"");
+					writer.println("Accion "+Integer.toString(in)+"");
 					writer.println("Tiempo: "+String.valueOf(i.get(in))+"");
 					writer.println();
 					writer.println();
@@ -64,18 +94,9 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 			return 0;
 		}
 		
-		total=i.size();
-		r.add(total);
-		
-		for(Float f: i.values()) {
-			media+=f;
-		}
-		media/=total;
-		r.add(media);
-		
 		this.flagAccion++;
-		
 		this.accionOK=1;
+		
 		return 1;
 	}
 
@@ -109,8 +130,8 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 		}
 		
 		this.flagAlarma++;
-		
 		this.alarmaOK=1;
+		
 		return 1;
 	}
 	
@@ -126,27 +147,6 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 		
 		return d;
 	}
-	
-	/*private float mediaAlarmas(HashMap<Integer, Alarma> alarmas) {
-		float media=0f;
-		long duracionT=0L;
-		//21/04/2022
-		for(Alarma a: alarmas.values()) {
-			Date fechaIn=convertirFecha(a.getFecha());
-			Date fechaFin= convertirFecha(a.getFechaCierre());
-			
-			long diff= fechaFin.getTime()-fechaIn.getTime();
-			
-			TimeUnit time= TimeUnit.DAYS;
-			long diferencia= time.convert(diff, TimeUnit.MILLISECONDS);
-			long duracion= diferencia*24;
-			duracionT+=duracion;
-		}
-		
-		media=duracionT/alarmas.size();
-		
-		return media;
-	}*/
 	
 	private HashMap<String, Integer> distribucionAlarmas(HashMap<Integer, String> alarmas){
 		HashMap<String, ArrayList<String>> result= new HashMap<String, ArrayList<String>>();
@@ -195,7 +195,38 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 		ArrayList<Object> result= new ArrayList<Object>();
 		
 		if(flag==0) { //Equipos
-			
+			if(this.equipoOK==1) {
+				int i=1, j=0;
+				HashMap<String, ArrayList<Integer>> equipos= new HashMap<String, ArrayList<Integer>>();
+				HashMap<String, Integer> fin= new HashMap<String, Integer>();
+				for(i=1; i<this.flagEquipo; i++) {
+					String nombre="./LogEquipo_"+String.valueOf(i)+".txt";
+					File doc= new File(nombre);
+					try (Scanner obj = new Scanner(doc)) {
+						while(obj.hasNextLine()) {
+							if(obj.nextLine().contains("Equipo")) {
+								j++;
+								equipos.put("Equipo "+String.valueOf(j)+"", new ArrayList<Integer>());
+							}
+							
+							else if(obj.nextLine().equals("Miembro disponible")) {
+								equipos.get("Equipo "+String.valueOf(j)+"").add(1);
+							}
+						}
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				for(String s: equipos.keySet()) {
+					int lon=equipos.get(s).size();
+					fin.put(s, lon);
+				}
+				
+				result.add(fin);
+			}
+			this.equipoOK=0;
 		}
 		
 		else if(flag==1) { //Acciones
@@ -223,10 +254,9 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 				result.add(total);
 				
 				media/=total;
-				result.add(media);
-				
-				
+				result.add(media);	
 			}
+			this.accionOK=0;
 		}
 		
 		else if(flag== 2) { //Alarmas
@@ -285,12 +315,55 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 				fin= distribucionAlarmas(alarmas);
 				result.add(fin);
 			}
+			this.alarmaOK=0;
 		}
 		
 		return result;
 	}
 	
+	public void eliminarArchivos() throws IOException {
+		Process process = Runtime.getRuntime().exec("DEL Log*.txt");
+		this.flagEquipo=0;
+		this.flagAccion=0;
+		this.flagAlarma=0;
+	}
+	
 	public void exponerValores(int flag) throws FileNotFoundException {
-		calcularEstadisticas(flag);
+		ArrayList<Object> res= new ArrayList<Object>();
+		res= calcularEstadisticas(flag);
+		
+		if(flag== 0) { //Equipos
+			HashMap<String, Integer> fin= new HashMap<String, Integer>();
+			fin=(HashMap<String, Integer>) res.get(0);
+			System.out.println("INFORMACION EQUIPOS\n");
+			for(String s: fin.keySet()) {
+				System.out.println(""+" tiene disponible "+fin.get(s)+" miembros\n");
+			}
+			System.out.println("\n\n");
+		}
+		
+		else if(flag== 1) { //Acciones
+			int total= (int) res.get(0);
+			float media= (float) res.get(1);
+			System.out.println("INFORMACION ACCIONES Y VERIFICACIONES\n");
+			System.out.println("Total: "+String.valueOf(total)+"\n");
+			System.out.println("Media de duracion: "+String.valueOf(media)+"\n");
+			System.out.println("\n\n");
+		}
+		
+		else if(flag== 2) { //Alarmas
+			int total= (int) res.get(0);
+			float media= (float) res.get(1);
+			HashMap<String, Integer> fin= new HashMap<String, Integer>();
+			fin= (HashMap<String, Integer>) res.get(2);
+			
+			System.out.println("INFORMACION ALARMAS\n");
+			System.out.println("Total: "+String.valueOf(total)+"\n");
+			System.out.println("Media de duracion: "+String.valueOf(media)+"\n");
+			for(String s: fin.keySet()) {
+				System.out.println("En "+s+" se produjeron "+Integer.toString(fin.get(s))+" alarmas\n");
+			}
+			System.out.println("\n\n");
+		}
 	}
 }
