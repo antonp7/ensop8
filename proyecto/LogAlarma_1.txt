@@ -1,0 +1,24 @@
+Alarma 1
+Fecha inicio: 21/04/2022
+Fecha fin: 30/04/2022
+Tipo: 
+Centro: ETSE
+Estado: 1
+
+
+Alarma 2
+Fecha inicio: 24/04/2022
+Fecha fin: 30/05/2022
+Tipo: 
+Centro: ETSE
+Estado: 1
+
+
+Alarma 3
+Fecha inicio: 30/04/2022
+Fecha fin: 05/05/2022
+Tipo: 
+Centro: Casa
+Estado: 1
+
+

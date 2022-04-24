@@ -60,7 +60,7 @@ public class gestorEquipos implements gestorEquiposInt{
     public int recibirGestion(int e, HashMap<Integer, Usuario> equipo) {
     	//Comprobamos que los usuarios están disponibles
     	for(Usuario u : equipo.values()) {
-    		if(u.isEstado()) {}
+    		if(recibirEstado(u.getId())) {}
     		else {return 1;}
     	}
     	//Si lo están, comprobamos que el equipo exista

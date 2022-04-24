@@ -199,12 +199,13 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 			File doc= new File(nombre);
 			try (Scanner obj = new Scanner(doc)) {
 				while(obj.hasNextLine()) {
-					if(obj.nextLine().contains("Equipo")) {
+					String linea= obj.nextLine();
+					if(linea.contains("Equipo")) {
 						j++;
 						equipos.put("Equipo "+String.valueOf(j)+"", new ArrayList<Integer>());
 					}
 					
-					else if(obj.nextLine().equals("Miembro disponible")) {
+					else if(linea.equals("Miembro disponible")) {
 						equipos.get("Equipo "+String.valueOf(j)+"").add(1);
 					}
 				}
@@ -235,12 +236,13 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 			File doc= new File(nombre);
 			try (Scanner obj = new Scanner(doc)) {
 				while(obj.hasNextLine()) {
-					if(obj.nextLine().contains("Accion")) {
+					String linea=obj.nextLine();
+					if(linea.contains("Accion")) {
 						total++;
 					}
 					
-					else if(obj.nextLine().contains("Tiempo: ")) {
-						String[] parts= obj.nextLine().split(": ");
+					else if(linea.contains("Tiempo: ")) {
+						String[] parts= linea.split(": ");
 						media+=Float.valueOf(parts[1]);
 					}
 				}
@@ -275,19 +277,20 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 				fechasFin= new ArrayList<String>();
 				
 				while(obj.hasNextLine()) {
-					if(obj.nextLine().contains("Alarma")) {
+					String linea= obj.nextLine();
+					if(linea.contains("Alarma")) {
 						total++;
 					}
 					
-					else if(obj.nextLine().contains("Fecha inicio: ")) {
-						String[] parts= obj.nextLine().split(": ");
+					else if(linea.contains("Fecha inicio: ")) {
+						String[] parts= linea.split(": ");
 						fechasIn.add(parts[1]);
 						alarmas.put(k, parts[1]);
 						k++;
 					}
 					
-					else if(obj.nextLine().contains("Fecha fin: ")) {
-						String[] parts= obj.nextLine().split(": ");
+					else if(linea.contains("Fecha fin: ")) {
+						String[] parts= linea.split(": ");
 						fechasFin.add(parts[1]);
 					}
 				}
