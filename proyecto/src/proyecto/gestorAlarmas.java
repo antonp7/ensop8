@@ -6,10 +6,12 @@ public class gestorAlarmas implements gestorAlarmasInt {
     private HashMap<Integer, Protocolo> protocolos;
     private gestorUsuariosInt gU;
     private gestorEquiposInt gE;
+    private gestorEstadisticasInt gS;
     
-    public gestorAlarmas(){
+    public gestorAlarmas(gestorEstadisticasInt gS){
         this.alarmas = new HashMap<>();
         this.protocolos = new HashMap<>();
+        this.gS = gS;
     }
 
     public gestorUsuariosInt getgU() {
@@ -133,8 +135,7 @@ public class gestorAlarmas implements gestorAlarmasInt {
     	for(Integer idAlarma : this.getAlarmas().keySet()) {
     		Alarma a = this.getAlarmas().get(idAlarma);
     		if(a.getEstado() == 0 && (a.getFechaCierre()!=null || a.getFechaCierre() != "")) {
-    			gestorEstadisticasInt interfaz = new gestorEstadisticas();
-    			if(interfaz.recibirInfoAlarmas(alarmasResueltas)== 1) {
+    			if(gS.recibirInfoAlarmas(alarmasResueltas)== 1) {
     				return 1;
     			}
     		}
