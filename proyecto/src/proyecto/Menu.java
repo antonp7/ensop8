@@ -50,8 +50,6 @@ public class Menu {
 		acciones.put(3, "salir");
 		gU.recibirAccionesUsuario(acciones);
 		
-		
-		gE.recibirEstado(4, hashUsuarios);
 		for(Integer i : gE.notificarInfoEquipos().keySet()) {
 			Collection<HashMap<Integer, Boolean>> notificarCol = gE.notificarInfoEquipos().values();
 			System.out.println(i);
