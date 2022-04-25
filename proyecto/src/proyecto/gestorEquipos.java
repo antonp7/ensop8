@@ -37,11 +37,13 @@ public class gestorEquipos implements gestorEquiposInt{
 		estado=s.nextLine();
 		
 		
+		
+		
 		while(!estado.equals("S") && !estado.equals("N")){
 			System.out.println("Repita el estado, el formato no era correcto.");
 			estado=s.nextLine();
 		}
-		if(estado.contains("S")) {
+		if(estado.equals("S")) {
 			return true;
 		}
 		else{
@@ -77,42 +79,24 @@ public class gestorEquipos implements gestorEquiposInt{
 
         //Comprobamos que los usuarios están disponibles
         for(Usuario u : equipo.values()) {
-            if(recibirEstado(u.getId())) {
-            	System.out.println(u.isEstado());
-                dispo.add(u.isEstado());
-            }
-            else {
-            	dispo.add(u.isEstado());
-            }
+	    	boolean aux = recibirEstado(u.getId());
+	    	u.setEstado(aux);
+	        dispo.add(aux);
+            
         }
-        System.out.println(dispo);
-        //Si lo están, comprobamos que el equipo exista
-        if(equipos.get(e)!=null) {
-            //Si existe, lo modificamos
-            for(Usuario u : equipo.values()) {
-                u.setEquipo(e);
-            }
-            equipos.replace(e, equipo);
+        for(Usuario u : equipo.values()) {
+            u.setEquipo(e);
         }
-        else {
-            //Si no existe, se crea
-            for(Usuario u : equipo.values()) {
-                u.setEquipo(e);
-            }
-            equipos.put(e, equipo);
-        }
-        System.out.println(dispo.size());
+        equipos.put(e, equipo);
+        
         for(Integer i : equipos.keySet()) {
         	HashMap<Integer, Usuario> h = equipos.get(i);
         	for(Integer id : h.keySet()) {
-        		d.put(id, dispo.get(i));
+        		d.put(id, h.get(id).isEstado());        		
         	}
         	
         }
-
-        d2.put(Integer.valueOf(e), d);
-        System.out.println("Key: " + Integer.valueOf(e));
-        System.out.println("Value: " + d.toString());
+        d2.put(e, d);
         gS.recibirInfoEquipos(d2);
         return 0;
     }

@@ -119,18 +119,19 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
+			System.out.println("Hola");
 			e.printStackTrace();
 			this.alarmaOK=0;
 			return 0;
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
+			System.out.println("Hola2");
 			e.printStackTrace();
 			this.alarmaOK=0;
 			return 0;
 		}
 		
 		this.flagAlarma++;
-		System.out.println(this.flagAlarma);
 		this.alarmaOK=1;
 		
 		return 1;
@@ -222,7 +223,7 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 		
 		System.out.println("INFORMACION EQUIPOS\n");
 		for(String s: fin.keySet()) {
-			System.out.println(""+" tiene disponible "+fin.get(s)+" miembros\n");
+			System.out.println(""+s + " tiene disponible "+fin.get(s)+" miembros\n");
 		}
 		System.out.println("\n\n");
 	}
@@ -231,8 +232,8 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 		int total=0;
 		float media=0f;
 		int i=1;
-		for(i=1; i<this.flagAlarma; i++) {
-			String nombre="./LogAlarma_"+String.valueOf(i)+".txt";
+		for(i=1; i<this.flagAccion; i++) {
+			String nombre="./LogAccion_"+String.valueOf(i)+".txt";
 			File doc= new File(nombre);
 			try (Scanner obj = new Scanner(doc)) {
 				while(obj.hasNextLine()) {
@@ -368,6 +369,7 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 		}
 		
 		else if(flag== 2) { //Alarmas
+			System.out.println(this.alarmaOK);
 			calcularEstadisticas(2);
 		}
 	}

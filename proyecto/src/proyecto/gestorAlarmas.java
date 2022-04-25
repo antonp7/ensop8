@@ -1,4 +1,6 @@
 package proyecto;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 public class gestorAlarmas implements gestorAlarmasInt {
@@ -41,7 +43,7 @@ public class gestorAlarmas implements gestorAlarmasInt {
     			
     		}
     		enviarSirena(mensaje);
-    		
+    		enviarInfoAlarma(alarma);
     		
     		return 1;
     		
@@ -108,22 +110,25 @@ public class gestorAlarmas implements gestorAlarmasInt {
 		    		default:
 		    			valor = 0;
 	    		} 
-	    	}    		
+	    	}
+	    	long yourmilliseconds = System.currentTimeMillis();
+	    	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");    
+	    	Date resultdate = new Date(yourmilliseconds);
+	    	String fecha = sdf.format(resultdate);
+	    	alarma.setFechaCierre(fecha);
+	    	alarma.setEstado(0);
     	}
 
     	return valor;    	
     }
     
 
-    public int enviarInfoAlarma(HashMap<Integer, Alarma> alarmasResueltas) {
-    	for(Integer idAlarma : this.getAlarmas().keySet()) {
-    		Alarma a = this.getAlarmas().get(idAlarma);
-    		if(a.getEstado() == 0 && (a.getFechaCierre()!=null || a.getFechaCierre() != "")) {
-    			if(gS.recibirInfoAlarmas(alarmasResueltas)== 1) {
-    				return 1;
-    			}
-    		}
-    	}
+    public int enviarInfoAlarma(Alarma a){
+    	HashMap<Integer, Alarma> hash = new HashMap<>();
+    	hash.put(a.getId(), a);
+		if(gS.recibirInfoAlarmas(hash)== 1) {
+			return 1;
+		}
     	return 0;
     	
     }

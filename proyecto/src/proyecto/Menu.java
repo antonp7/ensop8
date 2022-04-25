@@ -45,8 +45,6 @@ public class Menu {
 		hashAlarmas.put(a.getId(), a);
 		hashAlarmas.put(a2.getId(), a2);
 		hashAlarmas.put(a3.getId(), a3);
-		gS.recibirInfoAlarmas(hashAlarmas);
-		gS.exponerValores(2);
 		gU.darBajaUsuario("9348293N");
 		HashMap<Integer,String> acciones = new HashMap<>();
 		acciones.put(3, "salir");
@@ -78,6 +76,10 @@ public class Menu {
 		hashgestion.put(1, hashBool);
 		
 		gE.recibirGestion(1, hashUsuarios);
+		
+		gS.exponerValores(0);
+		gS.exponerValores(1);
+		gS.exponerValores(2);
 		
 		
 	}
