@@ -1,6 +1,5 @@
 package proyecto;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -80,9 +79,6 @@ public class Menu {
 		gS.exponerValores(0);
 		gS.exponerValores(1);
 		gS.exponerValores(2);
-		
-		
-		
 	}
 
 }
