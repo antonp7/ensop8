@@ -1,6 +1,7 @@
 package proyecto;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 
 public interface gestorEstadisticasInt {
@@ -11,4 +12,5 @@ public interface gestorEstadisticasInt {
 	int recibirInfoAlarmas(HashMap<Integer, Alarma> i);
 	
 	void exponerValores(int flag) throws FileNotFoundException;
+
 }
