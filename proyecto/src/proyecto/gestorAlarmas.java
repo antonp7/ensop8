@@ -93,18 +93,18 @@ public class gestorAlarmas implements gestorAlarmasInt {
 		    			p.setVerifica(true);
 		    			valor = 1;
 		    		case "Meteorito":
-		    			p.setAccion("Refugiarse en un lugar subterráneo lo más rápido posible");
+		    			p.setAccion("Refugiarse en un lugar subterraneo lo mas rapido posible");
 		    			p.setVerifica(true);
 		    			valor = 1;
 		    		case "Volcan":
 		    			p.setAccion("Salir del edificio con la mayor rapidez posible y refugiarse en un lugar lejano");
 		    			valor = 1;
 		    		case "Alerta de bomba":
-		    			p.setAccion("Salir del edificio, irse para casa y no salir salvo por causas muy específicas");
+		    			p.setAccion("Salir del edificio, irse para casa y no salir salvo por causas muy especificas");
 		    			p.setVerifica(true);
 		    			valor = 1;
 		    		case "Tsunami":
-		    			p.setAccion("Sal del edificio lo antes posible y aléjate de la costa a un lugar muy lejano de la costa");
+		    			p.setAccion("Sal del edificio lo antes posible y alejate de la costa a un lugar muy lejano de la costa");
 		    			p.setVerifica(true);
 		    			valor = 1;
 		    		default:

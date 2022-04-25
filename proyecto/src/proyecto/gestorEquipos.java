@@ -140,11 +140,11 @@ public class gestorEquipos implements gestorEquiposInt{
     	return result;
     }
     
-    //Opcion 1 (El HashMap no se suministra previamente)
+
     public void notificarInfoAccion(Integer accion, Float tiempo) {
     	//Creamos un hashmap que gestione nuestros datos
     	HashMap<Integer, Float> i = new HashMap<>();
-    	//Añadimos nuestros datos como una nueva entrada
+    	//Anhadimos nuestros datos como una nueva entrada
     	i.put(accion, tiempo);
     	//Enviamos los datos
     	gS.recibirInfoAccion(i);
@@ -154,8 +154,8 @@ public class gestorEquipos implements gestorEquiposInt{
     	//Devolvemos mediante un String que debe hacer el equipo en este caso
     	System.out.println("Se deben tomar medidas sobre la siguiente alarma: ");
     	System.out.println("Tipo: " + p.getTipoAlarma());
-    	System.out.println("Localización: " + p.getLocalizacion());
-    	System.out.println("Acción: " + p.getAccion());
+    	System.out.println("Localizacion: " + p.getLocalizacion());
+    	System.out.println("Accion: " + p.getAccion());
     }
     
     public void determinarAccion(String accion, Protocolo p) {

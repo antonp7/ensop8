@@ -1,7 +1,6 @@
 package proyecto;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
 
 public class Menu {
@@ -13,15 +12,16 @@ public class Menu {
 		gestorAlarmasInt gA = new gestorAlarmas(gS, gE);
 		gestorUsuariosInt gU = new gestorUsuarios(gA);
 		gE.setgU(gU);
+		
 		gA.crearProtocolo("incendio", "ETSE", "normal", "Salir del edificio");
 		Alarma a = new Alarma(1, "ETSE", "21/04/2022", 1);
 		Alarma a2 = new Alarma(2, "ETSE", "24/04/2022", 1);
-		Alarma a3 = new Alarma(3, "Casa", "30/04/2022", 1);
+		//Alarma a3 = new Alarma(3, "Casa", "30/04/2022", 1);
 		gA.recibirAlarma(a);
 		gA.recibirAlarma(a2);
-		Protocolo p = new Protocolo(2, "Incendio", "ETSE");
-		gE.determinarAccion("Accion 1", p);
-		gE.consultarProtocolo(p);
+		//Protocolo p = new Protocolo(2, "Incendio", "ETSE");
+		//gE.determinarAccion("Accion 1", p);
+		//gE.consultarProtocolo(p);
 		Usuario us1 = new Usuario(3, "Pepe", "12345789S");
 		Usuario us2 = new Usuario(4, "Carlos", "987654321A");
 		gU.registrarUsuario(us1);
@@ -40,22 +40,16 @@ public class Menu {
 		HashMap<Integer, Alarma> hashAlarmas = new HashMap<>();
 		a.setFechaCierre("30/04/2022");
 		a2.setFechaCierre("30/05/2022");
-		a3.setFechaCierre("05/05/2022");
+		//a3.setFechaCierre("05/05/2022");
 		hashAlarmas.put(a.getId(), a);
 		hashAlarmas.put(a2.getId(), a2);
-		hashAlarmas.put(a3.getId(), a3);
+		//hashAlarmas.put(a3.getId(), a3);
 		gU.darBajaUsuario("9348293N");
 		HashMap<Integer,String> acciones = new HashMap<>();
 		acciones.put(3, "salir");
 		gU.recibirAccionesUsuario(acciones);
 		
 		us1.setEstado(true);
-		System.out.println("NotificarInfoEquipos():");
-		for(Integer i : gE.notificarInfoEquipos().keySet()) {
-			Collection<HashMap<Integer, Boolean>> notificarCol = gE.notificarInfoEquipos().values();
-			System.out.println(i);
-			System.out.println(notificarCol);	
-		}
 		Protocolo p2 = new Protocolo(3, "Tsunami", "Casa");
 		p2.setIdXAccion(2);
 		gE.determinarProtocolo(p2, a2);
@@ -66,7 +60,6 @@ public class Menu {
 		gE.setEquipos(hashEquipos);
 		HashMap<Integer, Usuario> hashUsuarios2 = new HashMap<>();
 		hashUsuarios2.put(us1.getId(), us1);
-		System.out.println(gE.editarEquipos(1, hashUsuarios2));
 		
 		HashMap<Integer, HashMap<Integer, Boolean>> hashgestion = new HashMap<>();
 		HashMap<Integer, Boolean> hashBool = new HashMap<>();

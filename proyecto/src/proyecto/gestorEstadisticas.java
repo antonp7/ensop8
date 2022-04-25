@@ -31,7 +31,6 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 
 	@Override
 	public int recibirInfoEquipos(HashMap<Integer, HashMap<Integer, Boolean>> disponibilidadMiembros) {
-		// TODO Auto-generated method stub
 		try {
 			try (PrintWriter writer = new PrintWriter("./LogEquipo_"+String.valueOf(this.flagEquipo)+".txt", "UTF-8")) {
 				for(Integer i: disponibilidadMiembros.keySet()) {
@@ -51,12 +50,10 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 				}
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			this.equipoOK=0;
 			return 0;
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			this.equipoOK=0;
 			return 0;
@@ -70,24 +67,19 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 
 	@Override
 	public int recibirInfoAccion(HashMap<Integer, Float> i) {
-		// TODO Auto-generated method stub
 		
 		try {
 			try (PrintWriter writer = new PrintWriter("./LogAccion_"+String.valueOf(this.flagAccion)+".txt", "UTF-8")) {
 				for(Integer in: i.keySet()) {
-					writer.println("Accion "+Integer.toString(in)+"");
-					writer.println("Tiempo: "+String.valueOf(i.get(in))+"");
-					writer.println();
-					writer.println();
+					writer.println("Accion "+Integer.toString(in));
+					writer.println("Tiempo: "+String.valueOf(i.get(in))+"\n\n");
 				}
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			this.accionOK=0;
 			return 0;
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			this.accionOK=0;
 			return 0;
@@ -106,25 +98,19 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 		try {
 			try (PrintWriter writer = new PrintWriter("./LogAlarma_"+String.valueOf(this.flagAlarma)+".txt", "UTF-8")) {
 				for(Alarma a: i.values()) {
-					writer.println("Alarma "+String.valueOf(a.getId())+"");
-					writer.println("Fecha inicio: "+a.getFecha()+"");
-					writer.println("Fecha fin: "+a.getFechaCierre()+"");
-					writer.println("Tipo: "+a.getTipo()+"");
-					writer.println("Centro: "+a.getCentro()+"");
-					writer.println("Estado: "+String.valueOf(a.getEstado())+"");
-					writer.println();
-					writer.println();
+					writer.println("Alarma "+String.valueOf(a.getId()));
+					writer.println("Fecha inicio: "+a.getFecha());
+					writer.println("Fecha fin: "+a.getFechaCierre());
+					writer.println("Tipo: "+a.getTipo());
+					writer.println("Centro: "+a.getCentro());
+					writer.println("Estado: "+String.valueOf(a.getEstado())+"\n\n");
 				}
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Hola");
 			e.printStackTrace();
 			this.alarmaOK=0;
 			return 0;
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Hola2");
 			e.printStackTrace();
 			this.alarmaOK=0;
 			return 0;
@@ -142,7 +128,6 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 		try {
 			d= formato.parse(f);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -210,7 +195,6 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 					}
 				}
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -247,7 +231,6 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 					}
 				}
 			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -360,7 +343,6 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 		}
 		
 		else if(flag== 2) { //Alarmas
-			System.out.println(this.alarmaOK);
 			calcularEstadisticas(2);
 		}
 	}
