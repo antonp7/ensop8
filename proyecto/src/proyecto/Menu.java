@@ -53,7 +53,6 @@ public class Menu {
 		Protocolo p2 = new Protocolo(3, "Tsunami", "Casa");
 		p2.setIdXAccion(2);
 		gE.determinarProtocolo(p2, a2);
-		gE.consultarProtocolo(p2);
 		
 		HashMap<Integer, HashMap<Integer, Usuario>> hashEquipos = new HashMap<>();
 		hashEquipos.put(1, hashUsuarios);

@@ -39,7 +39,7 @@ public class gestorAlarmas implements gestorAlarmasInt {
     		String mensaje = "";
     		for(Protocolo p : this.getProtocolos().values()) {
     			mensaje = p.getAccion();
-    			enviarProtocolo(p);
+    			enviarProtocolo(p, alarma);
     			
     		}
     		enviarSirena(mensaje);
@@ -144,12 +144,12 @@ public class gestorAlarmas implements gestorAlarmasInt {
     }
     
     
-    public int enviarProtocolo(Protocolo protocolo) {
+    public int enviarProtocolo(Protocolo protocolo, Alarma a) {
     	if(protocolo == null) {
     		return 0;
     	}
     	else {
-    		gE.consultarProtocolo(protocolo);
+    		gE.determinarProtocolo(protocolo, a);
     		return 1;
     	}
     }

@@ -150,13 +150,13 @@ public class gestorEquipos implements gestorEquiposInt{
     	gS.recibirInfoAccion(i);
     }
     
-    public void consultarProtocolo(Protocolo p) {
+    /*public void consultarProtocolo(Protocolo p) {
     	//Devolvemos mediante un String que debe hacer el equipo en este caso
     	System.out.println("Se deben tomar medidas sobre la siguiente alarma: ");
     	System.out.println("Tipo: " + p.getTipoAlarma());
     	System.out.println("Localizacion: " + p.getLocalizacion());
     	System.out.println("Accion: " + p.getAccion());
-    }
+    }*/
     
     public void determinarAccion(String accion, Protocolo p) {
     	p.setAccion(accion);
