@@ -350,16 +350,8 @@ public class gestorEstadisticas implements gestorEstadisticasInt{
 		}
 	}
 	
-	public void eliminarArchivos() throws IOException {
-		Process process = Runtime.getRuntime().exec("DEL Log*.txt");
-		this.flagEquipo=0;
-		this.flagAccion=0;
-		this.flagAlarma=0;
-	}
 	
-	public void exponerValores(int flag) throws FileNotFoundException {
-		ArrayList<Object> res= new ArrayList<Object>();
-		
+	public void exponerValores(int flag) throws FileNotFoundException {		
 		if(flag== 0) { //Equipos
 			calcularEstadisticas(0);
 		}

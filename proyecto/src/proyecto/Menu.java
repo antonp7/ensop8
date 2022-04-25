@@ -1,19 +1,19 @@
 package proyecto;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 
 public class Menu {
 
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws IOException {
 		
 		gestorEstadisticasInt gS = new gestorEstadisticas();
 		gestorEquiposInt gE = new gestorEquipos(gS);
 		gestorAlarmasInt gA = new gestorAlarmas(gS, gE);
 		gestorUsuariosInt gU = new gestorUsuarios(gA);
 		gE.setgU(gU);
-		
 		gA.crearProtocolo("incendio", "ETSE", "normal", "Salir del edificio");
 		Alarma a = new Alarma(1, "ETSE", "21/04/2022", 1);
 		Alarma a2 = new Alarma(2, "ETSE", "24/04/2022", 1);
@@ -80,6 +80,7 @@ public class Menu {
 		gS.exponerValores(0);
 		gS.exponerValores(1);
 		gS.exponerValores(2);
+		
 		
 		
 	}
