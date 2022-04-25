@@ -31,12 +31,11 @@ public class gestorEquipos implements gestorEquiposInt{
     }
     
     public boolean recibirEstado(int usuario) {
+    	boolean result = false;
     	Scanner s=new Scanner(System.in);
 		String estado="";
 		System.out.println("Esta disponible el usuario " + usuario + "?"+"[S/N]");
 		estado=s.nextLine();
-		
-		
 		
 		
 		while(!estado.equals("S") && !estado.equals("N")){
@@ -44,11 +43,13 @@ public class gestorEquipos implements gestorEquiposInt{
 			estado=s.nextLine();
 		}
 		if(estado.equals("S")) {
-			return true;
+			result = true;
 		}
 		else{
-			return false;
+			result = false;
 		}
+		
+		return result;
     }
     
     public int editarEquipos(int equipo, HashMap<Integer, Usuario> miembros) {
@@ -73,6 +74,7 @@ public class gestorEquipos implements gestorEquiposInt{
     }
     
     public int recibirGestion(int e, HashMap<Integer, Usuario> equipo) {
+    	int result = 0;
         ArrayList<Boolean> dispo = new ArrayList<>();
         HashMap<Integer,Boolean> d = new HashMap<>();
         HashMap<Integer, HashMap<Integer, Boolean>> d2 = new HashMap<>();
@@ -82,7 +84,6 @@ public class gestorEquipos implements gestorEquiposInt{
 	    	boolean aux = recibirEstado(u.getId());
 	    	u.setEstado(aux);
 	        dispo.add(aux);
-            
         }
         for(Usuario u : equipo.values()) {
             u.setEquipo(e);
@@ -98,7 +99,8 @@ public class gestorEquipos implements gestorEquiposInt{
         }
         d2.put(e, d);
         gS.recibirInfoEquipos(d2);
-        return 0;
+        
+        return result;
     }
     
 	private Date convertirFecha(String f) {
@@ -107,7 +109,6 @@ public class gestorEquipos implements gestorEquiposInt{
 		try {
 			d= formato.parse(f);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -115,11 +116,13 @@ public class gestorEquipos implements gestorEquiposInt{
 	}
 	
     public int determinarProtocolo(Protocolo p, Alarma a) {
+    	int result = 0;
     	//Recorremos todos los equipos para ver quienes pueden aplicar el protocolo
     	for(HashMap<Integer, Usuario> e : equipos.values()) {
     		for(Usuario u : e.values()) {
     			//Vemos si el protocolo es aplicable al equipo
     			if(p.getLocalizacion().equals(u.getZona())) {
+    				result = 1;
     				//Informamos al equipo
     				HashMap<Integer, String> acciones = new HashMap<>();
     				acciones.put(p.getIdXAccion(),p.getAccion());
@@ -134,7 +137,7 @@ public class gestorEquipos implements gestorEquiposInt{
     	Date fin = convertirFecha(a.getFechaCierre());
     	notificarInfoAccion(p.getIdXAccion(), (float)fin.getTime()-inicio.getTime());
     	
-    	return 0;
+    	return result;
     }
     
     //Opcion 1 (El HashMap no se suministra previamente)
